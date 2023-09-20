@@ -1,0 +1,77 @@
+from fastapi import FastAPI, UploadFile, File
+from keras.models import load_model
+from labels import labels
+from pydantic import BaseModel
+from typing import Annotated
+
+import os
+import numpy as np
+import cv2
+import time
+
+model = load_model("model.keras")
+
+model.summary()
+
+app = FastAPI()
+
+if not os.path.exists("reports"):
+    os.mkdir("reports")
+
+for label in labels:
+    if not os.path.exists(f"reports/{label}"):
+        os.mkdir(f"reports/{label}")
+
+
+class DetectionResponse(BaseModel):
+    id: int
+    name: str
+    one_hot: list = [1, 0, 0]
+
+
+class Label(BaseModel):
+    id: int
+    name: str
+
+
+class ReportForm(BaseModel):
+    id: int = 0
+    img: UploadFile = File(...)
+
+
+class ReportResponse(BaseModel):
+    message: str = "Thank you for your report!"
+
+
+@app.post("/wastes/detection",
+          response_model=DetectionResponse,
+          response_description="Detection waste type")
+async def detection(img: UploadFile = File(...)):
+    np_arr = np.fromstring(img.file.read(), np.uint8)
+    img_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+    img_np = cv2.resize(img_np / 255., (256, 256))
+
+    prediction = model.predict(np.array([img_np]))
+    label_id = prediction.argmax(axis=1)[0]
+
+    return DetectionResponse(id=label_id,
+                             name=labels[label_id],
+                             one_hot=prediction.tolist()[0])
+
+
+@app.get("/wastes/labels",
+         response_model=list[Label],
+         response_description="List of waste types")
+async def get_labels():
+    return [{"id": label, "name": labels[label]} for label in labels]
+
+
+@app.post("/wastes/report",
+          response_model=ReportResponse,
+          response_description="Report waste type")
+async def report(img: Annotated[UploadFile, File()],
+                 label: Annotated[int, Label]):
+    with open(f"reports/{label}/{time.time()}.jpg", "wb") as f:
+        f.write(await img.read())
+
+    return ReportResponse()
