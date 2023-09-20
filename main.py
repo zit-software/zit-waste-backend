@@ -1,15 +1,17 @@
 from fastapi import FastAPI, UploadFile, File
-from keras.models import load_model
+from keras.saving import load_model
+from keras.models import Sequential
 from labels import labels
 from pydantic import BaseModel
 from typing import Annotated
+from fastapi.testclient import TestClient
 
 import os
 import numpy as np
 import cv2
 import time
 
-model = load_model("model.keras")
+model: Sequential = load_model("model.keras")
 
 model.summary()
 
@@ -47,7 +49,7 @@ class ReportResponse(BaseModel):
           response_model=DetectionResponse,
           response_description="Detection waste type")
 async def detection(img: UploadFile = File(...)):
-    np_arr = np.fromstring(img.file.read(), np.uint8)
+    np_arr = np.frombuffer(img.file.read(), np.uint8)
     img_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
     img_np = cv2.resize(img_np / 255., (256, 256))
 
