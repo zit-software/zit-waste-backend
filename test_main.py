@@ -23,7 +23,7 @@ def test_get_labels():
 def test_report():
     response = client.post("/wastes/report",
                            files={"img": open("test.jpg", "rb")},
-                           params={"label": 0})
+                           params={"label": 1})
 
     assert response.status_code == 200
     assert response.json() == {"message": "Thank you for your report!"}
