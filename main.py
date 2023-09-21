@@ -55,7 +55,7 @@ class ReportResponse(BaseModel):
           response_model=DetectionResponse,
           response_description="Detection waste type")
 async def detection(img: UploadFile = File(...)):
-    np_arr = np.frombuffer(img.file.read(), np.uint8)
+    np_arr = np.fromfile(img.file, np.uint8)
     img_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
     img_np = cv2.resize(img_np / 255., (256, 256))
 
