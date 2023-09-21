@@ -4,7 +4,7 @@ from keras.models import Sequential
 from labels import labels
 from pydantic import BaseModel
 from typing import Annotated
-from fastapi.testclient import TestClient
+from fastapi.middleware.cors import CORSMiddleware
 
 import os
 import numpy as np
@@ -16,6 +16,12 @@ model: Sequential = load_model("model.keras")
 model.summary()
 
 app = FastAPI()
+
+app.add_middleware(CORSMiddleware,
+                   allow_origins=["*"],
+                   allow_credentials=True,
+                   allow_methods=["*"],
+                   allow_headers=["*"])
 
 if not os.path.exists("reports"):
     os.mkdir("reports")
