@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.10.12
 
 WORKDIR /code
 
@@ -9,5 +9,7 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 COPY . /code
 
 RUN wget https://huggingface.co/thangved/zitwaste/resolve/main/model.keras -O /code/model.keras
+
+EXPOSE 80 443
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
