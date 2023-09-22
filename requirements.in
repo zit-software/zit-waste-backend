@@ -5,3 +5,4 @@ opencv_python==4.8.0.76
 pydantic==1.10.12
 httpx==0.25.0
 tensorflow==2.13.0
+uvicorn==0.23.2
