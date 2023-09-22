@@ -103,6 +103,8 @@ pydantic==1.10.12
     # via
     #   -r requirements.in
     #   fastapi
+python-multipart==0.0.6
+    # via -r requirements.in
 requests==2.31.0
     # via
     #   requests-oauthlib
