@@ -36,7 +36,7 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       - name: Download model
         run: |
-          wget https://huggingface.co/thangved/zitwaste/resolve/main/model.keras -O /code/model.keras
+          wget https://huggingface.co/thangved/zitwaste/resolve/main/model.keras -O ./model.keras
       - name: Test with pytest
         run: |
           pytest
