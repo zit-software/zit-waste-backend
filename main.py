@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File
 from keras.saving import load_model
 from keras.models import Sequential
-from labels import labels
+from labels import labels, Label
 from pydantic import BaseModel
 from typing import Annotated
 from fastapi.middleware.cors import CORSMiddleware
@@ -35,11 +35,6 @@ class DetectionResponse(BaseModel):
     id: int
     name: str
     one_hot: list = [1, 0, 0]
-
-
-class Label(BaseModel):
-    id: int
-    name: str
 
 
 class ReportForm(BaseModel):
