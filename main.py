@@ -52,7 +52,7 @@ class ReportResponse(BaseModel):
 async def detection(img: UploadFile = File(...)):
     np_arr = np.fromfile(img.file, np.uint8)
     img_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-    img_np = cv2.resize(img_np / 255., model.input_shape[1:3])
+    img_np = cv2.resize(img_np, model.input_shape[1:3])
 
     prediction = model.predict(np.array([img_np]))
     label_id = prediction.argmax(axis=1)[0]
