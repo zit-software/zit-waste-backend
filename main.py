@@ -5,6 +5,8 @@ from labels import labels, Label
 from pydantic import BaseModel
 from typing import Annotated
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
+from utils import zip
 
 import os
 import numpy as np
@@ -78,3 +80,10 @@ async def report(img: Annotated[UploadFile, File()],
         f.write(await img.read())
 
     return ReportResponse()
+
+
+@app.get('/wastes/download-report', response_class=StreamingResponse)
+async def download_report():
+    return StreamingResponse(zip("reports"),
+                             media_type="application/octet-stream",
+                             headers={'Content-Disposition': f'attachment; filename="reports-{time.time()}.zip"'})
