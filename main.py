@@ -5,6 +5,8 @@ from labels import labels, Label
 from pydantic import BaseModel
 from typing import Annotated
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
+from utils import zip
 
 import os
 import numpy as np
@@ -52,7 +54,7 @@ class ReportResponse(BaseModel):
 async def detection(img: UploadFile = File(...)):
     np_arr = np.fromfile(img.file, np.uint8)
     img_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-    img_np = cv2.resize(img_np / 255., model.input_shape[1:3])
+    img_np = cv2.resize(img_np, model.input_shape[1:3])
 
     prediction = model.predict(np.array([img_np]))
     label_id = prediction.argmax(axis=1)[0]
@@ -78,3 +80,10 @@ async def report(img: Annotated[UploadFile, File()],
         f.write(await img.read())
 
     return ReportResponse()
+
+
+@app.get('/wastes/download-report', response_class=StreamingResponse)
+async def download_report():
+    return StreamingResponse(zip("reports"),
+                             media_type="application/octet-stream",
+                             headers={'Content-Disposition': f'attachment; filename="reports-{time.time()}.zip"'})
