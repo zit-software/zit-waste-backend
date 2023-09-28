@@ -39,7 +39,7 @@ Server của bạn sẽ chạy ở địa chỉ `http://localhost:8080`
 
 - Tải file model.keras vào thư mục gốc của dự án
   ```sh
-  wget https://huggingface.co/thangved/zitwaste/resolve/main/model.keras -O /code/model.keras
+  wget https://huggingface.co/thangved/zitwaste/resolve/main/model.keras -O model.keras
   ```
 - Chạy server
   ```sh
