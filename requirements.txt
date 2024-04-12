@@ -4,8 +4,6 @@
 #
 #    pip-compile
 #
---extra-index-url https://packagecloud.io/github/git-lfs/pypi/simple
-
 absl-py==2.0.0
     # via
     #   tensorboard
@@ -60,7 +58,7 @@ httpcore==0.18.0
     # via httpx
 httpx==0.25.0
     # via -r requirements.in
-idna==3.4
+idna==3.7
     # via
     #   anyio
     #   httpx
