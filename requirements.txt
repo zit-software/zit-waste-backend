@@ -4,8 +4,6 @@
 #
 #    pip-compile
 #
---extra-index-url https://packagecloud.io/github/git-lfs/pypi/simple
-
 absl-py==2.0.0
     # via
     #   tensorboard
@@ -161,7 +159,7 @@ urllib3==1.26.16
     #   requests
 uvicorn==0.23.2
     # via -r requirements.in
-werkzeug==2.3.7
+werkzeug==3.0.3
     # via tensorboard
 wheel==0.41.2
     # via
