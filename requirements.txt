@@ -26,6 +26,10 @@ charset-normalizer==3.2.0
     # via requests
 click==8.1.7
     # via uvicorn
+exceptiongroup==1.2.2
+    # via
+    #   anyio
+    #   pytest
 fastapi==0.103.1
     # via -r requirements.in
 flatbuffers==23.5.26
@@ -81,7 +85,7 @@ numpy==1.24.3
     #   tensorflow
 oauthlib==3.2.2
     # via requests-oauthlib
-opencv-python==4.8.0.76
+opencv-python==4.8.1.78
     # via -r requirements.in
 opt-einsum==3.3.0
     # via tensorflow
@@ -141,11 +145,14 @@ tensorflow-io-gcs-filesystem==0.34.0
     # via tensorflow
 termcolor==2.3.0
     # via tensorflow
+tomli==2.0.1
+    # via pytest
 typing-extensions==4.5.0
     # via
     #   fastapi
     #   pydantic
     #   tensorflow
+    #   uvicorn
 urllib3==1.26.18
     # via
     #   google-auth
