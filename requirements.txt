@@ -111,7 +111,7 @@ pydantic==1.10.13
     #   fastapi
 pytest==7.4.2
     # via -r requirements.in
-python-multipart==0.0.7
+python-multipart==0.0.18
     # via -r requirements.in
 requests==2.32.2
     # via
